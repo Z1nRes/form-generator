@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var headerBtns = document.querySelectorAll('.header-btn');
-var resultForm = document.querySelector('.result-form'); //блок формы
+var headerBtns = document.querySelectorAll('.header-btn'), //кнопки шапки
+resultForm = document.querySelector('.result-form'); //блок формы
 var getData = function (formNumber) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -52,9 +52,9 @@ var getData = function (formNumber) { return __awaiter(_this, void 0, void 0, fu
 }); };
 headerBtns.forEach(function (headerBtn) {
     headerBtn.addEventListener("click", function () {
-        getData(headerBtn.getAttribute("name"));
+        getData(String(headerBtn.getAttribute("name")));
     });
-});
+}); // При нажатии на кнопку меняется номер формы в запросе и выводится другая форма
 var generatorForm = function (data) {
     resultForm.innerHTML = ''; //очищает от предыдущей формы и начальной надписи
     var createLegend = function (legend) {
@@ -62,7 +62,13 @@ var generatorForm = function (data) {
         legendForm.textContent = legend;
         resultForm.appendChild(legendForm);
     }; //добавляет загаловок для формы
+    var createDescription = function (desc) {
+        var descriptionForm = document.createElement('p');
+        descriptionForm.textContent = desc;
+        resultForm.appendChild(descriptionForm);
+    }; //добавляет описание для формы
     data.title ? createLegend(data.title) : false; // если есть title, то создаем заголовок формы
+    data.description ? createLegend(data.description) : false; // если есть description, то создаем описание формы
     var createFields = function (fields) {
         fields.forEach(function (field) {
             var inputWrapper = document.createElement("div");
@@ -160,10 +166,10 @@ var generatorForm = function (data) {
     data.buttons.forEach(function (btn) {
         var newBtn = document.createElement("button");
         newBtn.textContent = btn;
-        newBtn.type = btn;
+        btn === "submit" ? newBtn.type = "submit" : newBtn.type = "reset";
         btn === 'submit' ? newBtn.classList.add('btn', 'btn-success') : newBtn.classList.add('btn', 'btn-danger');
         btnsWrapper.appendChild(newBtn);
-    });
+    }); //добавление кнопок форме
     resultForm.appendChild(btnsWrapper);
 };
 resultForm.addEventListener("submit", function (e) {
