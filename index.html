@@ -3,10 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Генератор форм</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
 <body>
+    <header class="d-flex justify-content-center pt-3">
+        <div class="btns-wrapper d-flex justify-content-between w-25">
+            <button class="header-btn btn btn-outline-primary" name="1">form1</button>
+            <button class="header-btn btn btn-outline-primary" name="2">form2</button>
+            <button class="header-btn btn btn-outline-primary" name="3">form3</button>
+        </div>
+    </header>
+    <hr>
+    <main class="d-flex justify-content-center pt-3">
+        <div class="w-50">
+            <form method="post" class="result-form form-group">
+                <h3>Нажмите любую кнопку в шапке, чтобы увидеть пример формы.</h3>
+            </form>
+        </div>
+    </main>
 
-
-    <script type="module" src="./js/index.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/index.js"></script>
 </body>
 </html>

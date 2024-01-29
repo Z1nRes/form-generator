@@ -1,5 +1,6 @@
 
 const headerBtns = document.querySelectorAll('.header-btn');
+const resultForm = document.querySelector('.result-form'); //блок формы
 
 const getData = async (formNumber) => {
     await axios.get('../data/form-test-' + formNumber + '.json')
@@ -15,7 +16,6 @@ headerBtns.forEach((headerBtn) => {
 })
 
 const generatorForm = (data) => {
-    const resultForm = document.querySelector('.result-form'); //блок формы
     resultForm.innerHTML = ''; //очищает от предыдущей формы и начальной надписи
 
     const createLegend = (legend) => {
@@ -60,6 +60,7 @@ const generatorForm = (data) => {
 
                     radioInput.type = field.attrs.type;
                     radioInput.name = field.attrs.name;
+                    radioInput.value = variant.value;
 
                     radioLabel.textContent = variant.label;
                     radioLabel.classList.add('ps-2');
@@ -96,7 +97,8 @@ const generatorForm = (data) => {
                 const selectLabel = document.createElement('label');
                 const selectWrapper = document.createElement('select');
 
-                selectWrapper.classList.add('ms-2', 'mt-2');
+                selectWrapper.classList.add('form-select');
+                selectWrapper.name = field.attrs.name;
 
                 selectLabel.textContent = field.label;
 
@@ -116,7 +118,6 @@ const generatorForm = (data) => {
             const createCheckboxField = (field) => {
                 const checkboxesLabel = document.createElement('label');
 
-
                 checkboxesLabel.textContent = field.label;
                 inputWrapper.appendChild(checkboxesLabel);
 
@@ -127,6 +128,7 @@ const generatorForm = (data) => {
 
                     checkboxInput.type = field.attrs.type;
                     checkboxInput.value = variant.value;
+                    checkboxInput.name = field.attrs.name;
                     checkboxLabel.textContent = variant.label;
                     checkboxLabel.classList.add('ms-2');
 
@@ -161,6 +163,8 @@ const generatorForm = (data) => {
         const newBtn = document.createElement("button");
 
         newBtn.textContent = btn;
+        newBtn.type = btn;
+
         btn === 'submit' ? newBtn.classList.add('btn', 'btn-success') : newBtn.classList.add('btn', 'btn-danger');
 
         btnsWrapper.appendChild(newBtn);
@@ -168,3 +172,16 @@ const generatorForm = (data) => {
     resultForm.appendChild(btnsWrapper);
 }
 
+resultForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(resultForm);
+    const values = Object.fromEntries(formData.entries());
+
+    console.log("============================================");
+    for (let value in values) {
+        value === 'question-1' ? console.log(value + " - " + formData.getAll('question-1')) : console.log(value + " - " + values[value]);
+    }
+
+    e.target.reset();
+
+}) //вывод данных в консоль

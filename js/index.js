@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var headerBtns = document.querySelectorAll('.header-btn');
+var resultForm = document.querySelector('.result-form'); //блок формы
 var getData = function (formNumber) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -55,7 +56,6 @@ headerBtns.forEach(function (headerBtn) {
     });
 });
 var generatorForm = function (data) {
-    var resultForm = document.querySelector('.result-form'); //блок формы
     resultForm.innerHTML = ''; //очищает от предыдущей формы и начальной надписи
     var createLegend = function (legend) {
         var legendForm = document.createElement('legend');
@@ -87,6 +87,7 @@ var generatorForm = function (data) {
                     var radioInput = document.createElement("input");
                     radioInput.type = field.attrs.type;
                     radioInput.name = field.attrs.name;
+                    radioInput.value = variant.value;
                     radioLabel.textContent = variant.label;
                     radioLabel.classList.add('ps-2');
                     radioFieldWrapper.classList.add('ps-2');
@@ -113,7 +114,8 @@ var generatorForm = function (data) {
             var createSelectField = function (field) {
                 var selectLabel = document.createElement('label');
                 var selectWrapper = document.createElement('select');
-                selectWrapper.classList.add('ms-2', 'mt-2');
+                selectWrapper.classList.add('form-select');
+                selectWrapper.name = field.attrs.name;
                 selectLabel.textContent = field.label;
                 field.attrs.variants.forEach(function (variant) {
                     var selectInput = document.createElement('option');
@@ -135,6 +137,7 @@ var generatorForm = function (data) {
                     var checkboxInput = document.createElement('input');
                     checkboxInput.type = field.attrs.type;
                     checkboxInput.value = variant.value;
+                    checkboxInput.name = field.attrs.name;
                     checkboxLabel.textContent = variant.label;
                     checkboxLabel.classList.add('ms-2');
                     checkboxWrapper.classList.add('ms-2');
@@ -157,8 +160,19 @@ var generatorForm = function (data) {
     data.buttons.forEach(function (btn) {
         var newBtn = document.createElement("button");
         newBtn.textContent = btn;
+        newBtn.type = btn;
         btn === 'submit' ? newBtn.classList.add('btn', 'btn-success') : newBtn.classList.add('btn', 'btn-danger');
         btnsWrapper.appendChild(newBtn);
     });
     resultForm.appendChild(btnsWrapper);
 };
+resultForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var formData = new FormData(resultForm);
+    var values = Object.fromEntries(formData.entries());
+    console.log("============================================");
+    for (var value in values) {
+        value === 'question-1' ? console.log(value + " - " + formData.getAll('question-1')) : console.log(value + " - " + values[value]);
+    }
+    e.target.reset();
+}); //вывод данных в консоль
